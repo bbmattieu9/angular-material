@@ -1,0 +1,43 @@
+<div [formGroup]="form" class="course-details-form">
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <input matInput formControlName="title"  placeholder="Course title">
+
+    <mat-error *ngIf="courseTitle.errors?.minlength">
+        A minimum length of 5 characters is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-radio-group class="course-type" formControlName="courseType">
+      <mat-radio-button value="free">Free</mat-radio-button>
+      <mat-radio-button value="premium">Premium</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field appearance="outline">
+    <mat-select formControlName="category" placeholder="Select category">
+
+<!--      <mat-option>None</mat-option>-->
+<!--      <mat-optgroup label="Beginners">-->
+<!--        <mat-option value="newprogramming">New To programming</mat-option>-->
+<!--        <mat-option value="newtojava">New To Java</mat-option>-->
+<!--        <mat-option value="newtoangular">New To Angular</mat-option>-->
+<!--      </mat-optgroup>-->
+
+
+      <mat-option value="BEGINNERS">Beginners</mat-option>
+      <mat-option value="INTERMEDIATE">Intermediate</mat-option>
+      <mat-option value="ADVANCED">Advanced</mat-option>
+
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+      <input matInput formControlName="releasedAt" placeholder="Release Date" [matDatepicker]="releasedAtPicker">
+    <mat-datepicker-toggle matSuffix [for]="releasedAtPicker"></mat-datepicker-toggle>
+    <mat-datepicker #releasedAtPicker [dateClass]="dateClass"></mat-datepicker>
+  </mat-form-field>
+
+</div>
+
+
+
