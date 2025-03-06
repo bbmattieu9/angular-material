@@ -37,6 +37,14 @@
     <mat-datepicker #releasedAtPicker [dateClass]="dateClass"></mat-datepicker>
   </mat-form-field>
 
+  <mat-checkbox color="primary" formControlName="downloadsAllowed">
+    Downloads allowed?
+  </mat-checkbox>
+
+  <mat-form-field appearance="outline">
+    <textarea matInput placeholder="description" formControlName="longDescription"></textarea>
+  </mat-form-field>
+
 </div>
 
 

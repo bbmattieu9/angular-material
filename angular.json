@@ -58,7 +58,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "angular-material-course:build"
+            "buildTarget": "angular-material-course:build",
+
           },
           "configurations": {
             "production": {

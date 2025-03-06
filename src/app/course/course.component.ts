@@ -99,21 +99,24 @@ export class CourseComponent implements OnInit, AfterViewInit {
       }
     ];
 
+    displayedColumns = ["seqNo", "description", "duration"];
+
     constructor(private route: ActivatedRoute,
                 private coursesService: CoursesService) {
 
     }
 
     ngOnInit() {
-
         this.course = this.route.snapshot.data["course"];
-
-
+        this.loadLesonsPage();
     }
 
-    ngAfterViewInit() {
-
-
+    loadLesonsPage() {
+      this.coursesService.findLessons(this.course.id, "asc", 0, 3).pipe(
+        tap(lessons => this.lessons = lessons)
+      ).subscribe();
     }
+
+    ngAfterViewInit() { }
 
 }
