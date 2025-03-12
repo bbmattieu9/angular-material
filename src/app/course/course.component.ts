@@ -5,7 +5,8 @@ import {ActivatedRoute} from "@angular/router";
 // import { MatTableDataSource } from "@angular/material/table";
 import {Course} from "../model/course";
 import {CoursesService} from "../services/courses.service";
-import {debounceTime, distinctUntilChanged, startWith, tap, delay} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, startWith, tap, delay, catchError} from 'rxjs/operators';
+import {throwError} from "rxjs";
 // import {merge, fromEvent} from "rxjs";
 
 
@@ -113,7 +114,11 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
     loadLesonsPage() {
       this.coursesService.findLessons(this.course.id, "asc", 0, 3).pipe(
-        tap(lessons => this.lessons = lessons)
+        tap(lessons => this.lessons = lessons),
+        catchError(err => {
+          console.log("Error Loading Lessons", err);
+          return throwError(err);
+        })
       ).subscribe();
     }
 
