@@ -5,7 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 // import { MatTableDataSource } from "@angular/material/table";
 import {Course} from "../model/course";
 import {CoursesService} from "../services/courses.service";
-import {debounceTime, distinctUntilChanged, startWith, tap, delay, catchError} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, startWith, tap, delay, catchError, finalize} from 'rxjs/operators';
 import {throwError} from "rxjs";
 // import {merge, fromEvent} from "rxjs";
 
@@ -18,6 +18,7 @@ import {throwError} from "rxjs";
 })
 export class CourseComponent implements OnInit, AfterViewInit {
 
+    isLoading: boolean = false;
     course:Course;
 
     lessons = [
@@ -113,12 +114,14 @@ export class CourseComponent implements OnInit, AfterViewInit {
     }
 
     loadLesonsPage() {
+      this.isLoading = true;
       this.coursesService.findLessons(this.course.id, "asc", 0, 3).pipe(
         tap(lessons => this.lessons = lessons),
         catchError(err => {
           console.log("Error Loading Lessons", err);
           return throwError(err);
-        })
+        }),
+        finalize(() => this.isLoading = false),
       ).subscribe();
     }
 
