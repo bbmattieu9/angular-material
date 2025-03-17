@@ -8,6 +8,7 @@ import {CoursesService} from "../services/courses.service";
 import {debounceTime, distinctUntilChanged, startWith, tap, delay, catchError, finalize} from 'rxjs/operators';
 import {throwError} from "rxjs";
 import {Lesson} from "../model/lesson";
+import {MatPaginator} from "@angular/material/paginator";
 // import {merge, fromEvent} from "rxjs";
 
 
@@ -23,6 +24,8 @@ export class CourseComponent implements OnInit, AfterViewInit {
     course:Course;
     lessons: Lesson[] = [];
     displayedColumns = ["seqNo", "description", "duration"];
+    @ViewChild(MatPaginator)
+    paginator: MatPaginator;
 
     constructor(private route: ActivatedRoute,
                 private coursesService: CoursesService) {
@@ -36,7 +39,11 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
     loadLesonsPage() {
       this.isLoading = true;
-      this.coursesService.findLessons(this.course.id, "asc", 0, 3).pipe(
+      this.coursesService.findLessons(
+            this.course.id,
+            "asc",
+            this.paginator.pageIndex,
+            this.paginator.pageSize).pipe(
         tap(lessons => this.lessons = lessons),
         catchError(err => {
           console.log("Error Loading Lessons", err);
@@ -46,6 +53,10 @@ export class CourseComponent implements OnInit, AfterViewInit {
       ).subscribe();
     }
 
-    ngAfterViewInit() { }
+    ngAfterViewInit() {
+      this.paginator.page.pipe(
+        tap(() => this.loadLesonsPage()),
+      ).subscribe();
+    }
 
 }
