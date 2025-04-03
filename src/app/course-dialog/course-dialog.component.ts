@@ -21,14 +21,11 @@ export class CourseDialogComponent implements OnInit {
   })
 
     constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) private course: Course,
-                private dialogRef: MatDialogRef<CourseDialogComponent>)
-    {
+                private dialogRef: MatDialogRef<CourseDialogComponent>) {
         this.description = course.description;
     }
 
-    ngOnInit() {
-
-    }
+    ngOnInit() { }
 
   save() {
     this.dialogRef.close(this.form.value);
